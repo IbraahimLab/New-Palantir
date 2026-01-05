@@ -65,40 +65,42 @@ const App: React.FC = () => {
             <AuditLogViewer />
           ) : (
             <>
-              <section className="viewport">
-                <div className="view-selector glass">
-                  <button
-                    className={`btn btn-ghost ${viewMode === 'graph' ? 'active' : ''}`}
-                    onClick={() => setViewMode('graph')}
-                  >
-                    <Network size={16} /> Graph
-                  </button>
-                  <button
-                    className={`btn btn-ghost ${viewMode === 'timeline' ? 'active' : ''}`}
-                    onClick={() => setViewMode('timeline')}
-                  >
-                    <Clock size={16} /> Timeline
-                  </button>
-                  <button
-                    className={`btn btn-ghost ${viewMode === 'map' ? 'active' : ''}`}
-                    onClick={() => setViewMode('map')}
-                  >
-                    <MapIcon size={16} /> Map
-                  </button>
-                  <div className="v-divider mx-2"></div>
-                  <button
-                    className={`btn btn-ghost ${viewMode === 'comms' ? 'active' : ''}`}
-                    onClick={() => setViewMode('comms')}
-                  >
-                    <Share2 size={16} /> Comms
-                  </button>
-                  <button
-                    className={`btn btn-ghost ${viewMode === 'finance' ? 'active' : ''}`}
-                    onClick={() => setViewMode('finance')}
-                  >
-                    <DollarSign size={16} /> Finance
-                  </button>
-                </div>
+              <section className="viewport panel glass">
+                <header className="viewport-header">
+                  <div className="view-selector">
+                    <button
+                      className={`btn btn-ghost ${viewMode === 'graph' ? 'active' : ''}`}
+                      onClick={() => setViewMode('graph')}
+                    >
+                      <Network size={16} /> Graph
+                    </button>
+                    <button
+                      className={`btn btn-ghost ${viewMode === 'timeline' ? 'active' : ''}`}
+                      onClick={() => setViewMode('timeline')}
+                    >
+                      <Clock size={16} /> Timeline
+                    </button>
+                    <button
+                      className={`btn btn-ghost ${viewMode === 'map' ? 'active' : ''}`}
+                      onClick={() => setViewMode('map')}
+                    >
+                      <MapIcon size={16} /> Map
+                    </button>
+                    <div className="v-divider"></div>
+                    <button
+                      className={`btn btn-ghost ${viewMode === 'comms' ? 'active' : ''}`}
+                      onClick={() => setViewMode('comms')}
+                    >
+                      <Share2 size={16} /> Comms
+                    </button>
+                    <button
+                      className={`btn btn-ghost ${viewMode === 'finance' ? 'active' : ''}`}
+                      onClick={() => setViewMode('finance')}
+                    >
+                      <DollarSign size={16} /> Finance
+                    </button>
+                  </div>
+                </header>
                 <div className="view-content">
                   {renderView()}
                 </div>
@@ -247,22 +249,29 @@ const App: React.FC = () => {
           flex: 1;
           display: flex;
           flex-direction: column;
-          gap: 12px;
-          position: relative;
+          overflow: hidden;
+        }
+        .viewport-header {
+          padding: 8px 16px;
+          border-bottom: 1px solid var(--border);
+          display: flex;
+          justify-content: center;
+          background: rgba(255, 255, 255, 0.02);
         }
         .detail-panel {
-          width: 380px;
+          width: 400px;
           display: flex;
           flex-direction: column;
         }
         .panel-header {
           padding: 12px 16px;
           border-bottom: 1px solid var(--border);
-          font-weight: 600;
-          font-size: 0.75rem;
+          font-weight: 700;
+          font-size: 0.7rem;
           text-transform: uppercase;
-          letter-spacing: 0.1em;
+          letter-spacing: 0.12em;
           color: var(--text-muted);
+          background: rgba(255, 255, 255, 0.02);
         }
         .panel-content {
           padding: 16px;
@@ -280,25 +289,24 @@ const App: React.FC = () => {
           font-size: 0.8125rem;
         }
         .view-selector {
-          position: absolute;
-          top: 12px;
-          left: 50%;
-          transform: translateX(-50%);
           display: flex;
           gap: 4px;
-          padding: 4px;
+          padding: 2px;
+          background: rgba(0, 0, 0, 0.2);
           border-radius: 8px;
-          z-index: 50;
+        }
+        .view-selector .btn {
+          padding: 6px 12px;
+          font-size: 0.75rem;
         }
         .view-selector .btn.active {
           background: var(--primary);
           color: white;
+          box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
         }
         .view-content {
           flex: 1;
           background: var(--bg-main);
-          border: 1px solid var(--border);
-          border-radius: 12px;
           position: relative;
           overflow: hidden;
         }
