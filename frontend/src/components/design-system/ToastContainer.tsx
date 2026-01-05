@@ -1,5 +1,5 @@
 import React from 'react';
-import { useInvestigationStore, Toast } from '../../store/useInvestigationStore';
+import { useInvestigationStore, type Toast } from '../../store/useInvestigationStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Info, CheckCircle, AlertTriangle, XCircle, X } from 'lucide-react';
 
