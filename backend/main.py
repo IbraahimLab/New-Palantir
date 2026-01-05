@@ -115,13 +115,10 @@ def health_supabase():
     }
 
 
-# ===== API Routes (will be added in later phases) =====
+# ===== API Routes =====
+from api.v1.api import api_router
 
-# TODO: Phase 2 - Entity routes
-# TODO: Phase 3 - Graph routes
-# TODO: Phase 3 - Search routes
-# TODO: Phase 4 - Case management routes
-# TODO: Phase 4 - Auth routes
+app.include_router(api_router, prefix="/api/v1")
 
 
 if __name__ == "__main__":
