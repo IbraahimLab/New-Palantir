@@ -1,0 +1,9 @@
+person_id,full_name,dob,nationality,sex,risk_flag,alias_of
+P001,Ayaan Maxamed,1994-02-11,SO,M,LOW,
+P002,Ayaan M. Maxamed,1994-02-11,SO,M,LOW,P001
+P003,Hodan Warsame,1988-09-03,SO,F,MED,
+P004,Yusuf Ali,1990-12-22,KE,M,HIGH,
+P005,Muna Hassan,1998-06-15,SO,F,LOW,
+P006,Abdiqani Nur,1979-01-29,SO,M,MED,
+P007,Said Omar,1992-04-08,ET,M,LOW,
+P008,Layla Ibrahim,1995-11-19,SO,F,LOW,

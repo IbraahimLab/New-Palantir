@@ -1,0 +1,50 @@
+version: 1
+objects:
+  Person:
+    key: person_id
+    properties: [full_name, dob, nationality, sex, risk_flag]
+  Organisation:
+    key: org_id
+    properties: [org_name, org_type, country]
+  Location:
+    key: location_id
+    properties: [name, kind, lat, lon, geohash]
+  Phone:
+    key: phone_id
+    properties: [msisdn, country, carrier]
+  Device:
+    key: device_id
+    properties: [imei, device_type, first_seen]
+  Vehicle:
+    key: vehicle_id
+    properties: [plate, make, model, colour, registered_country]
+  Event:
+    key: event_id
+    properties: [event_type, start_time, end_time, location_id, summary]
+  Account:
+    key: account_id
+    properties: [account_type, provider, country, holder_person_id, holder_org_id]
+  Transaction:
+    key: txn_id
+    properties: [timestamp, from_account, to_account, amount_usd, channel, memo]
+  Document:
+    key: doc_id
+    properties: [doc_type, created_at, source_system, title, classification, path]
+
+relationships:
+  PERSON_OWNS_PHONE: {from: Person, to: Phone, dataset: person_phone.csv}
+  PERSON_USES_DEVICE: {from: Person, to: Device, dataset: person_device.csv}
+  PERSON_WORKS_FOR: {from: Person, to: Organisation, dataset: person_org.csv}
+  PERSON_OWNS_VEHICLE: {from: Person, to: Vehicle, dataset: person_vehicle.csv}
+  PERSON_ATTENDED_EVENT: {from: Person, to: Event, dataset: attendance.csv}
+  ORG_ASSOCIATED_EVENT: {from: Organisation, to: Event, dataset: attendance.csv}
+  CALL: {from: Phone, to: Phone, dataset: cdr_calls.csv}
+  MESSAGE: {from: Phone, to: Phone, dataset: messages.csv}
+  TRANSFER: {from: Account, to: Account, dataset: transactions.csv}
+  DOC_MENTIONS_ENTITY: {from: Document, to: "*", dataset: document_mentions.csv}
+
+security_markings:
+  Document.classification:
+    - PUBLIC
+    - RESTRICTED
+    - SENSITIVE_PII

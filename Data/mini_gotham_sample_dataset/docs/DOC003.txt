@@ -1,0 +1,5 @@
+Invoice EA-7781
+Seller: EastGate Auto Imports (UAE)
+Buyer: Sahara Exchange (KE)
+Amount: USD 880.00
+Note: Parts shipment linked to BD-447.

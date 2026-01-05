@@ -1,0 +1,4 @@
+msg_id,timestamp,from_phone,to_phone,channel,text
+M001,2025-10-21T09:11:00+03:00,PH001,PH002,SMS,Meet 10:20 at the cafe. Use side entrance.
+M002,2025-10-21T10:58:00+03:00,PH002,PH001,SMS,Done. Port by 11:30.
+M003,2025-11-02T07:55:00+03:00,PH005,PH001,WhatsApp,Fee paid. Container cleared.

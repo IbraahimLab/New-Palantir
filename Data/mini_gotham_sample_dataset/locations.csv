@@ -1,0 +1,6 @@
+location_id,name,kind,lat,lon,geohash
+L001,Mogadishu Port,POI,2.039,45.3419,sr0k9
+L002,KM4 Junction,POI,2.0428,45.3187,sr0k6
+L003,Aden Adde Airport,POI,2.0144,45.3047,sr0k1
+L004,Harbourfront Cafe,POI,2.0414,45.344,sr0k9
+L005,Nairobi CBD,AREA,-1.2864,36.8172,kz6nq

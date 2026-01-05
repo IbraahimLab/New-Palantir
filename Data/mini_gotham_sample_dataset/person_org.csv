@@ -1,0 +1,4 @@
+person_id,org_id,relationship,start_date,end_date
+P006,O001,Employee,2024-06-01,
+P003,O004,Manager,2023-01-10,
+P007,O003,SalesAgent,2025-02-01,

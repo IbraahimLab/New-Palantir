@@ -1,0 +1,11 @@
+doc_id,entity_type,entity_id,mention
+DOC001,Person,P001,Ayaan Maxamed
+DOC001,Phone,PH001,+252611001001
+DOC002,Person,P001,Ayaan Maxamed
+DOC002,Person,P003,Hodan Warsame
+DOC002,Person,P006,Abdiqani Nur
+DOC002,Location,L004,Harbourfront Cafe
+DOC002,Vehicle,V001,SO-81234
+DOC003,Organisation,O003,EastGate Auto Imports
+DOC003,Organisation,O002,Sahara Exchange
+DOC003,Transaction,T003,USD 880.00

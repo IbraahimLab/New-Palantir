@@ -1,0 +1,4 @@
+doc_id,doc_type,created_at,source_system,title,classification,path
+DOC001,Email,2025-10-20T18:25:00+03:00,MailboxExport,Re: Port paperwork,RESTRICTED,docs/DOC001.txt
+DOC002,Report,2025-10-22T09:10:00+03:00,FieldNotes,Cafe observation note,SENSITIVE_PII,docs/DOC002.txt
+DOC003,Invoice,2025-10-23T16:45:00+03:00,Finance,Parts invoice EA-7781,RESTRICTED,docs/DOC003.txt

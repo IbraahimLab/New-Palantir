@@ -1,0 +1,6 @@
+txn_id,timestamp,from_account,to_account,amount_usd,channel,memo
+T001,2025-10-21T09:15:00+03:00,A001,A005,950.0,MobileMoney,freight deposit
+T002,2025-10-21T11:03:00+03:00,A005,A002,900.0,Cash,settlement
+T003,2025-10-23T16:40:00+03:00,A002,A003,880.0,Wire,parts invoice
+T004,2025-11-02T08:10:00+03:00,A004,A005,1200.0,MobileMoney,container fee
+T005,2025-11-02T20:55:00+03:00,A005,A002,1150.0,Cash,settlement

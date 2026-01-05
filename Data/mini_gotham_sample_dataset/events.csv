@@ -1,0 +1,4 @@
+event_id,event_type,start_time,end_time,location_id,summary
+E001,Meeting,2025-10-21T10:20:00+03:00,2025-10-21T10:55:00+03:00,L004,brief meeting at cafe
+E002,ShipmentArrival,2025-10-21T11:30:00+03:00,2025-10-21T12:15:00+03:00,L001,container offload
+E003,WireTransfer,2025-10-23T16:40:00+03:00,2025-10-23T16:41:00+03:00,L005,international transfer processed

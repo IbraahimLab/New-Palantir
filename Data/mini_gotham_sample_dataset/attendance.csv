@@ -1,0 +1,6 @@
+person_id,event_id,role,org_id
+P001,E001,Attendee,
+P003,E001,Attendee,
+P006,E001,ObservedNearby,
+,E002,Operator,O001
+P006,E002,Supervisor,

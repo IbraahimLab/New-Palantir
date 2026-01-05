@@ -1,0 +1,6 @@
+account_id,account_type,provider,country,holder_person_id,holder_org_id
+A001,MobileMoney,Hormuud EVC,SO,P001,
+A002,Bank,Sahara Exchange,KE,,O002
+A003,Bank,NIB UAE,AE,,O003
+A004,MobileMoney,Somtel,SO,P006,
+A005,CashFloat,Blue Dhow Logistics,SO,,O001
