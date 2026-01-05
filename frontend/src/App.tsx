@@ -9,84 +9,111 @@ import MapView from './components/map/MapView';
 import CaseWorkspace from './components/cases/CaseWorkspace';
 import CommunicationsView from './components/comms/CommunicationsView';
 import FinancialFlowView from './components/finance/FinancialFlowView';
+import AuditLogViewer from './components/audit/AuditLogViewer';
+import ToastContainer from './components/design-system/ToastContainer';
 import { Network, Clock, Map as MapIcon, Database, Layers, ShieldCheck, Share2, DollarSign } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const App: React.FC = () => {
-  const { viewMode, setViewMode, navigation, setNavigation, nodes, clearGraph } = useInvestigationStore();
+  const {
+    viewMode, setViewMode,
+    navigation, setNavigation,
+    userRole, setUserRole,
+    nodes, clearGraph
+  } = useInvestigationStore();
 
   const renderView = () => {
-    switch (viewMode) {
-      case 'graph': return <GraphView />;
-      case 'timeline': return <TimelineView />;
-      case 'map': return <MapView />;
-      case 'comms': return <CommunicationsView />;
-      case 'finance': return <FinancialFlowView />;
-      default: return <GraphView />;
-    }
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={viewMode}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 1.02 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          style={{ height: '100%', width: '100%' }}
+        >
+          {(() => {
+            switch (viewMode) {
+              case 'graph': return <GraphView />;
+              case 'timeline': return <TimelineView />;
+              case 'map': return <MapView />;
+              case 'comms': return <CommunicationsView />;
+              case 'finance': return <FinancialFlowView />;
+              default: return <GraphView />;
+            }
+          })()}
+        </motion.div>
+      </AnimatePresence>
+    );
   };
 
   const renderMainContent = () => {
-    if (navigation === 'cases') {
-      return <CaseWorkspace />;
-    }
-
-    if (navigation === 'audit') {
-      return (
-        <div className="flex-center h-full text-muted mono">
-          <ShieldCheck size={48} className="opacity-20 mb-4" />
-          Audit Logging Workspace (Phase 7)
-        </div>
-      );
-    }
-
     return (
-      <>
-        <section className="viewport">
-          <div className="view-selector glass">
-            <button
-              className={`btn btn-ghost ${viewMode === 'graph' ? 'active' : ''}`}
-              onClick={() => setViewMode('graph')}
-            >
-              <Network size={16} /> Graph
-            </button>
-            <button
-              className={`btn btn-ghost ${viewMode === 'timeline' ? 'active' : ''}`}
-              onClick={() => setViewMode('timeline')}
-            >
-              <Clock size={16} /> Timeline
-            </button>
-            <button
-              className={`btn btn-ghost ${viewMode === 'map' ? 'active' : ''}`}
-              onClick={() => setViewMode('map')}
-            >
-              <MapIcon size={16} /> Map
-            </button>
-            <div className="v-divider mx-2"></div>
-            <button
-              className={`btn btn-ghost ${viewMode === 'comms' ? 'active' : ''}`}
-              onClick={() => setViewMode('comms')}
-            >
-              <Share2 size={16} /> Comms
-            </button>
-            <button
-              className={`btn btn-ghost ${viewMode === 'finance' ? 'active' : ''}`}
-              onClick={() => setViewMode('finance')}
-            >
-              <DollarSign size={16} /> Finance
-            </button>
-          </div>
-          <div className="view-content">
-            {renderView()}
-          </div>
-        </section>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={navigation}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 20 }}
+          transition={{ duration: 0.3 }}
+          className="flex-1 flex gap-3 overflow-hidden"
+        >
+          {navigation === 'cases' ? (
+            <CaseWorkspace />
+          ) : navigation === 'audit' ? (
+            <AuditLogViewer />
+          ) : (
+            <>
+              <section className="viewport">
+                <div className="view-selector glass">
+                  <button
+                    className={`btn btn-ghost ${viewMode === 'graph' ? 'active' : ''}`}
+                    onClick={() => setViewMode('graph')}
+                  >
+                    <Network size={16} /> Graph
+                  </button>
+                  <button
+                    className={`btn btn-ghost ${viewMode === 'timeline' ? 'active' : ''}`}
+                    onClick={() => setViewMode('timeline')}
+                  >
+                    <Clock size={16} /> Timeline
+                  </button>
+                  <button
+                    className={`btn btn-ghost ${viewMode === 'map' ? 'active' : ''}`}
+                    onClick={() => setViewMode('map')}
+                  >
+                    <MapIcon size={16} /> Map
+                  </button>
+                  <div className="v-divider mx-2"></div>
+                  <button
+                    className={`btn btn-ghost ${viewMode === 'comms' ? 'active' : ''}`}
+                    onClick={() => setViewMode('comms')}
+                  >
+                    <Share2 size={16} /> Comms
+                  </button>
+                  <button
+                    className={`btn btn-ghost ${viewMode === 'finance' ? 'active' : ''}`}
+                    onClick={() => setViewMode('finance')}
+                  >
+                    <DollarSign size={16} /> Finance
+                  </button>
+                </div>
+                <div className="view-content">
+                  {renderView()}
+                </div>
+              </section>
 
-        <section className="detail-panel panel glass">
-          <div className="panel-header">Entity Details</div>
-          <div className="panel-content">
-            <EntityDetailPanel />
-          </div>
-        </section>
-      </>
+              <section className="detail-panel panel glass">
+                <div className="panel-header">Entity Details</div>
+                <div className="panel-content">
+                  <EntityDetailPanel />
+                </div>
+              </section>
+            </>
+          )}
+        </motion.div>
+      </AnimatePresence>
     );
   };
 
@@ -121,7 +148,21 @@ const App: React.FC = () => {
           <SearchInterface />
         </div>
         <div className="header-right">
-          <button className="btn btn-ghost text-xs" onClick={clearGraph}>Clear Workspace</button>
+          <div className="role-switcher glass px-2 py-1 rounded-lg flex gap-1 mr-4">
+            <button
+              className={`btn btn-xs ${userRole === 'analyst' ? 'btn-primary' : 'btn-ghost'}`}
+              onClick={() => setUserRole('analyst')}
+            >
+              Analyst
+            </button>
+            <button
+              className={`btn btn-xs ${userRole === 'investigator' ? 'btn-primary' : 'btn-ghost'}`}
+              onClick={() => setUserRole('investigator')}
+            >
+              Investigator
+            </button>
+          </div>
+          <button className="btn btn-ghost text-xs" onClick={clearGraph}>Clear</button>
           <button className="btn btn-primary">Save Case</button>
         </div>
       </header>
@@ -264,6 +305,7 @@ const App: React.FC = () => {
         .mb-4 { margin-bottom: 1rem; }
         .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       `}</style>
+      <ToastContainer />
     </div>
   );
 };

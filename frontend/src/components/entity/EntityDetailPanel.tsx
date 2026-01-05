@@ -6,7 +6,7 @@ import EntityResolutionUI from './EntityResolutionUI';
 import DocumentViewer from './DocumentViewer';
 
 const EntityDetailPanel: React.FC = () => {
-    const { selectedEntity, addGraphData } = useInvestigationStore();
+    const { selectedEntity, addGraphData, addToast, maskPII } = useInvestigationStore();
 
     if (!selectedEntity) {
         return (
@@ -20,8 +20,10 @@ const EntityDetailPanel: React.FC = () => {
         try {
             const response = await api.expandEntity(selectedEntity.type, selectedEntity.id);
             addGraphData(response.data);
+            addToast(`Expanded network for ${selectedEntity.id}`, 'success');
         } catch (error) {
             console.error('Failed to expand entity:', error);
+            addToast('Network expansion failed. Please check connection.', 'error');
         }
     };
 
@@ -63,7 +65,7 @@ const EntityDetailPanel: React.FC = () => {
                         .map(([key, value]) => (
                             <div key={key} className="property-item">
                                 <span className="prop-key text-xs text-muted">{key.replace(/_/g, ' ')}</span>
-                                <span className="prop-val text-sm">{String(value)}</span>
+                                <span className="prop-val text-sm">{maskPII(String(value), key)}</span>
                             </div>
                         ))}
                 </div>

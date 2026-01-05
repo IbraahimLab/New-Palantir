@@ -37,4 +37,6 @@ export const api = {
     getDocument: (id: string) => apiClient.get(`/documents/${id}`),
     getMentions: (id: string) => apiClient.get(`/documents/${id}/mentions`),
     searchDocuments: (query: string) => apiClient.get('/documents/search', { params: { q: query } }),
+    // Audit
+    getAuditLogs: () => apiClient.get('/audit/'),
 };

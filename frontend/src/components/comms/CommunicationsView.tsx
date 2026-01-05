@@ -4,7 +4,7 @@ import { api } from '../../services/api';
 import { Phone, Users, MessageSquare, TrendingUp, Search } from 'lucide-react';
 
 const CommunicationsView: React.FC = () => {
-    const { selectedEntity } = useInvestigationStore();
+    const { selectedEntity, maskPII } = useInvestigationStore();
     const [topContacts, setTopContacts] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
 
@@ -63,7 +63,7 @@ const CommunicationsView: React.FC = () => {
                                         <Users size={20} className="text-primary" />
                                     </div>
                                     <div>
-                                        <div className="font-bold text-sm">{contact.phone}</div>
+                                        <div className="font-bold text-sm">{maskPII(contact.phone, 'phone')}</div>
                                         <div className="text-xs text-muted">Frequency: {contact.count} contacts</div>
                                     </div>
                                 </div>

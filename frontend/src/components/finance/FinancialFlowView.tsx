@@ -4,7 +4,7 @@ import { api } from '../../services/api';
 import { DollarSign, ArrowRight, TrendingDown, Landmark, Search } from 'lucide-react';
 
 const FinancialFlowView: React.FC = () => {
-    const { selectedEntity } = useInvestigationStore();
+    const { selectedEntity, maskPII } = useInvestigationStore();
     const [trace, setTrace] = useState<any>(null);
     const [loading, setLoading] = useState(false);
 
@@ -65,7 +65,7 @@ const FinancialFlowView: React.FC = () => {
                                     <div className="flex items-center gap-2">
                                         <Landmark size={14} className="text-muted" />
                                         <span className="text-xs text-muted mono">Account</span>
-                                        <span className="font-bold">{step.accountId}</span>
+                                        <span className="font-bold">{maskPII(step.accountId, 'account_id')}</span>
                                     </div>
                                     <div className="amount font-bold text-primary">$ {step.amount.toLocaleString()}</div>
                                 </div>
