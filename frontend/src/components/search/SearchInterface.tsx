@@ -49,19 +49,27 @@ const SearchInterface: React.FC = () => {
                     placeholder="Search entities (name, phone, account...)"
                     className="search-input glass"
                 />
-                {query && <X size={18} className="clear-icon" onClick={() => { setQuery(''); setSearchResults([]); }} />}
+                <div className="search-actions">
+                    {loading && <div className="loading-spinner" />}
+                    {query && <X size={18} className="clear-icon" onClick={() => { setQuery(''); setSearchResults([]); }} />}
+                </div>
             </form>
 
             {searchResults.length > 0 && (
                 <div className="results-dropdown panel glass">
+                    <div className="results-header text-xs mono px-4 py-2 border-b">
+                        Found {searchResults.length} results
+                    </div>
                     {searchResults.map((result: any) => (
                         <div
                             key={`${result.type}-${result.id}`}
                             className="result-item"
                             onClick={() => handleResultClick(result)}
                         >
-                            <div className="result-type text-xs mono text-muted">{result.type}</div>
-                            <div className="result-name">{result.display_name}</div>
+                            <div className="flex justify-between items-center">
+                                <span className="result-name">{result.display_name}</span>
+                                <span className="result-type text-xs mono text-muted">{result.type}</span>
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -75,7 +83,17 @@ const SearchInterface: React.FC = () => {
           align-items: center;
         }
         .search-icon { position: absolute; left: 12px; color: var(--text-muted); }
-        .clear-icon { position: absolute; right: 12px; color: var(--text-muted); cursor: pointer; }
+        .search-actions { position: absolute; right: 12px; display: flex; align-items: center; gap: 8px; }
+        .clear-icon { color: var(--text-muted); cursor: pointer; }
+        .loading-spinner {
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(59, 130, 246, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
         .search-input {
           width: 100%;
           padding: 10px 40px;
@@ -92,15 +110,20 @@ const SearchInterface: React.FC = () => {
           max-height: 400px;
           overflow-y: auto;
           z-index: 1000;
-          padding: 8px 0;
+          padding: 0;
+        }
+        .results-header {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border-color: var(--border);
         }
         .result-item {
-          padding: 8px 16px;
+          padding: 10px 16px;
           cursor: pointer;
           transition: background 0.2s;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
-        .result-item:hover { background: rgba(255, 255, 255, 0.05); }
-        .result-type { margin-bottom: 2px; }
+        .result-item:hover { background: rgba(59, 130, 246, 0.1); }
         .result-name { font-weight: 500; font-size: 0.875rem; }
       `}</style>
         </div>

@@ -5,7 +5,7 @@ import { Briefcase, Plus, Folder, Clock } from 'lucide-react';
 import type { Case } from '../../types';
 
 const CaseWorkspace: React.FC = () => {
-    const { cases, setCases, activeCase, setActiveCase } = useInvestigationStore();
+    const { cases, setCases, activeCase, setActiveCase, addGraphData, addToast } = useInvestigationStore();
     const [loading, setLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
     const [newCase, setNewCase] = useState({ name: '', description: '' });
@@ -35,6 +35,24 @@ const CaseWorkspace: React.FC = () => {
             setNewCase({ name: '', description: '' });
         } catch (error) {
             console.error('Failed to create case:', error);
+        }
+    };
+
+    const handleLoadCaseEntities = async (caseId: string) => {
+        setLoading(true);
+        try {
+            const response = await api.getCaseEntities(caseId);
+            const entities = await Promise.all(response.data.map(async (ce: any) => {
+                const entityRes = await api.getEntity(ce.entity_type, ce.entity_id);
+                return entityRes.data;
+            }));
+            addGraphData({ nodes: entities, edges: [] });
+            addToast(`Loaded ${entities.length} entities from case`, 'success');
+        } catch (error) {
+            console.error('Failed to load case entities:', error);
+            addToast('Failed to load case entities.', 'error');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -99,14 +117,26 @@ const CaseWorkspace: React.FC = () => {
                                     </span>
                                 </div>
                                 <p className="text-xs text-muted mb-3 line-clamp-2">{c.description}</p>
-                                <div className="flex items-center gap-3 text-xs text-muted mono">
-                                    <Clock size={12} /> {new Date(c.created_at).toLocaleDateString()}
+                                <div className="flex items-center justify-between mt-auto">
+                                    <div className="flex items-center gap-3 text-xs text-muted mono">
+                                        <Clock size={12} /> {new Date(c.created_at).toLocaleDateString()}
+                                    </div>
+                                    <button
+                                        className="btn btn-ghost btn-xs text-primary"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleLoadCaseEntities(c.id);
+                                        }}
+                                    >
+                                        Load Graph
+                                    </button>
                                 </div>
                             </div>
                         ))}
                     </div>
                 )}
             </div>
+
 
             <style>{`
                 .case-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }

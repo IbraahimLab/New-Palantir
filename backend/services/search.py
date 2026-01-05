@@ -16,26 +16,31 @@ class SearchService:
         Global search across all entity types for a string.
         Matches on any string property.
         """
+        # Case-insensitive search using (?i)
         cypher = """
         MATCH (n)
-        WHERE any(prop in keys(n) WHERE n[prop] CONTAINS $query)
+        WHERE any(prop in keys(n) WHERE n[prop] =~ $query)
         RETURN n, labels(n)[0] as type
         LIMIT $limit
         """
-        results = neo4j_client.execute_query(cypher, {"query": query, "limit": limit})
+        # Prepare regex for case-insensitive partial match
+        regex_query = f"(?i).*{query}.*"
+        results = neo4j_client.execute_query(cypher, {"query": regex_query, "limit": limit})
         return self._format_results(results)
 
     async def typed_search(self, entity_type: str, filters: Dict[str, Any], limit: int = 20) -> List[Dict[str, Any]]:
         """Search entities of a specific type with filters."""
-        # Simple implementation: match any filter
-        filter_clause = " AND ".join([f"n.{k} CONTAINS ${k}" for k in filters.keys()])
+        # Simple implementation: match any filter with case-insensitivity
+        filter_clause = " AND ".join([f"n.{k} =~ ${k}" for k in filters.keys()])
         cypher = f"""
         MATCH (n:{entity_type})
         WHERE {filter_clause}
         RETURN n, '{entity_type}' as type
         LIMIT $limit
         """
-        results = neo4j_client.execute_query(cypher, {**filters, "limit": limit})
+        # Prepare regex for filters
+        regex_filters = {k: f"(?i).*{v}.*" for k, v in filters.items()}
+        results = neo4j_client.execute_query(cypher, {**regex_filters, "limit": limit})
         return self._format_results(results)
 
     def _format_results(self, results: List[Dict]) -> List[Dict]:
@@ -47,7 +52,7 @@ class SearchService:
             formatted.append({
                 "id": str(node.id),
                 "type": node_type,
-                "label": self._get_label_for_node(node, node_type),
+                "display_name": self._get_label_for_node(node, node_type),
                 "properties": dict(node)
             })
         return formatted

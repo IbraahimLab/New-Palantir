@@ -30,6 +30,7 @@ export const api = {
     // Cases
     listCases: () => apiClient.get('/cases/'),
     getCase: (id: string) => apiClient.get(`/cases/${id}`),
+    getCaseEntities: (id: string) => apiClient.get(`/cases/${id}/entities`),
     createCase: (data: any) => apiClient.post('/cases/', data),
     addEntityToCase: (caseId: string, data: any) => apiClient.post(`/cases/${caseId}/entities`, data),
 

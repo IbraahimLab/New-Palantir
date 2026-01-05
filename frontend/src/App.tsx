@@ -1,6 +1,7 @@
 import React from 'react';
 import './index.css';
 import { useInvestigationStore } from './store/useInvestigationStore';
+import { api } from './services/api';
 import GraphView from './components/graph/GraphView';
 import EntityDetailPanel from './components/entity/EntityDetailPanel';
 import SearchInterface from './components/search/SearchInterface';
@@ -19,7 +20,8 @@ const App: React.FC = () => {
     viewMode, setViewMode,
     navigation, setNavigation,
     userRole, setUserRole,
-    nodes, clearGraph
+    nodes, clearGraph,
+    activeCase, addToast
   } = useInvestigationStore();
 
   const renderView = () => {
@@ -119,6 +121,34 @@ const App: React.FC = () => {
     );
   };
 
+  const handleSaveCase = async () => {
+    if (!activeCase) {
+      addToast('No active investigation. Please select or create one in the Investigations tab.', 'warning');
+      setNavigation('cases');
+      return;
+    }
+
+    if (nodes.length === 0) {
+      addToast('Workspace is empty. Add entities to save them to the case.', 'info');
+      return;
+    }
+
+    try {
+      // Add each node in the current workspace to the case
+      await Promise.all(nodes.map(node =>
+        api.addEntityToCase(activeCase.id, {
+          entity_id: node.id,
+          entity_type: node.type,
+          notes: 'Added from global workspace'
+        })
+      ));
+      addToast(`Successfully saved ${nodes.length} entities to ${activeCase.name}`, 'success');
+    } catch (error) {
+      console.error('Failed to save case:', error);
+      addToast('Failed to save case data.', 'error');
+    }
+  };
+
   return (
     <div className="app-container">
       <header className="app-header glass">
@@ -165,7 +195,7 @@ const App: React.FC = () => {
             </button>
           </div>
           <button className="btn btn-ghost text-xs" onClick={clearGraph}>Clear</button>
-          <button className="btn btn-primary">Save Case</button>
+          <button className="btn btn-primary" onClick={handleSaveCase}>Save Case</button>
         </div>
       </header>
 

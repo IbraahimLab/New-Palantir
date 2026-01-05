@@ -11,10 +11,12 @@ router = APIRouter()
 async def create_new_case(case_input: Dict[str, Any]):
     """Create a new investigative case."""
     try:
+        # For demo purposes, default to a demo user ID if not provided
+        user_id = case_input.get("user_id", "demo-user-01")
         return await case_service.create_case(
             name=case_input["name"],
             description=case_input.get("description", ""),
-            created_by=case_input["user_id"]
+            created_by=user_id
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
